@@ -73,68 +73,124 @@ The SOC investigation focused on determining how initial access was achieved and
 
 ## Email Analysis
 
-The phishing email was analyzed to determine its legitimacy and identify indicators of compromise.
+The phishing email was analyzed to determine its legitimacy,
+identify indicators of compromise (IOCs), and understand the
+initial attack vector used against the organization.
 
-### Evidence
+### Initial Phishing Email
 
-**01_Phishing_Email_Microsoft_Security_Alert.png**
+![Initial Phishing Email](01_Phishing_Email_Microsoft_Security_Alert.png)
 
-- Initial phishing email received by the victim.
-
-**02_Email_Header_Authentication_Analysis.png**
-
-- Authentication results and email header verification.
-
-**03_PhishTool_Email_Forensic_Analysis.png**
-
-- Automated phishing investigation using PhishTool.
-
-**04_DMARC_Record_Validation.png**
-
-- Validation of the sender's DMARC configuration.
-
-**05_SPF_DKIM_Record_Verification.png**
-
-- Verification of SPF and DKIM authentication records.
-
-**06_Email_Header_Forensic_Analysis.png**
-
-- Detailed email header inspection.
-
-**07_Phishing_Link_Destination_Analysis.png**
-
-- Investigation of the embedded phishing hyperlink.
-
-**08_Email_Header_Metadata_Analysis.png**
-
-- Metadata analysis including routing information and message attributes.
+The phishing email impersonated Microsoft Security and attempted
+to trick the recipient into clicking a malicious hyperlink.
 
 ---
 
-## Kali Attack Evidence
+### Email Header Authentication Analysis
 
-Following reconnaissance, the attacker attempted credential attacks against the exposed SSH service.
+![Email Header Authentication Analysis](02_Email_Header_Authentication_Analysis.png)
 
-### Evidence
-
-**09_Hydra_SSH_Credentials_Discovered.png**
-
-- Hydra successfully identified valid SSH credentials, providing the attacker with initial access to the target system.
+Authentication results were reviewed to verify the legitimacy
+of the sender and identify potential email spoofing attempts.
 
 ---
 
-## Splunk Detection
+### PhishTool Email Forensic Analysis
 
-Sysmon process telemetry was ingested into Splunk Enterprise to validate attacker activity.
+![PhishTool Email Forensic Analysis](03_PhishTool_Email_Forensic_Analysis.png)
 
-### Evidence
+PhishTool was used to perform automated forensic analysis of
+the email, extracting indicators and identifying suspicious
+characteristics.
 
-**10_Sysmon_Network_Connection_Event.png**
+---
 
-- Sysmon Event ID 3 showing network connection activity associated with the attack.
+### DMARC Record Validation
 
-**11_Process_Correlation_ProcessGUID.png**
+![DMARC Record Validation](04_DMARC_Record_Validation.png)
 
+The sender's DMARC policy was examined to determine whether
+the message complied with domain authentication policies.
+
+---
+
+### SPF and DKIM Verification
+
+![SPF and DKIM Verification](05_SPF_DKIM_Record_Verification.png)
+
+SPF and DKIM records were validated to confirm whether the
+email passed authentication checks or exhibited signs of
+spoofing.
+
+---
+
+### Email Header Forensic Analysis
+
+![Email Header Forensic Analysis](06_Email_Header_Forensic_Analysis.png)
+
+A detailed inspection of the email headers provided insight
+into message routing, originating servers, and authentication
+results.
+
+---
+
+### Phishing Link Destination Analysis
+
+![Phishing Link Destination Analysis](07_Phishing_Link_Destination_Analysis.png)
+
+The embedded hyperlink was analyzed to identify the destination
+and determine whether it redirected users to attacker-controlled
+infrastructure.
+
+---
+
+### Email Header Metadata Analysis
+
+![Email Header Metadata Analysis](08_Email_Header_Metadata_Analysis.png)
+
+Message metadata, routing information, timestamps, and other
+email attributes were reviewed to support the forensic
+investigation.
+
+---
+
+# Kali Attack Evidence
+
+Following reconnaissance, the attacker attempted credential
+attacks against the exposed SSH service.
+
+### Hydra SSH Credentials Discovery
+
+![Hydra SSH Credentials Discovery](09_Hydra_SSH_Credentials_Discovered.png)
+
+Hydra successfully identified valid SSH credentials, providing
+the attacker with initial access to the target system.
+
+---
+
+# Splunk Detection
+
+Sysmon telemetry was ingested into Splunk Enterprise to verify
+attacker activity and correlate endpoint events with the
+incident timeline.
+
+### Sysmon Network Connection Event
+
+![Sysmon Network Connection Event](10_Sysmon_Network_Connection_Event.png)
+
+Sysmon Event ID 3 captured network connection activity
+associated with the attack, providing visibility into
+communications initiated by the compromised host.
+
+---
+
+### Process Correlation Using ProcessGUID
+
+![Process Correlation Using ProcessGUID](11_Process_Correlation_ProcessGUID.png)
+
+Splunk was used to correlate Sysmon events through the
+ProcessGUID, allowing investigators to trace attacker actions
+across multiple process and network events.
 - Process correlation using ProcessGUID to associate network activity with the originating process.
 
 ---

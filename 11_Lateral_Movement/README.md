@@ -2,9 +2,21 @@
 
 ## Overview
 
-Lateral Movement is the phase where an attacker attempts to move from one compromised system to other hosts within the network in order to expand access, increase privileges, and reach high-value assets.
+The Lateral Movement phase represents the attacker's attempt
+to expand access beyond the initially compromised host by
+moving to additional systems within the network. After
+obtaining a foothold, attackers commonly leverage legitimate
+administrative protocols and remote execution techniques to
+pivot through an environment while attempting to remain
+undetected.
 
-In this simulated incident involving the **NAD Cybersecurity Institute**, the attacker attempted multiple lateral movement techniques after compromising the Ubuntu server. These activities included SSH-based movement, remote service execution, and scheduled task execution. The Security Operations Center (SOC) investigated these activities using Splunk telemetry to identify attacker movement across the environment.
+In this simulated **NAD Cybersecurity Institute** incident,
+the attacker attempted multiple lateral movement techniques,
+including SSH-based remote access, scheduled task execution,
+and remote service creation. The Security Operations Center
+(SOC) investigated these activities using Splunk Enterprise,
+Sysmon, and Windows Event Logs to reconstruct the attacker's
+movement across the environment.
 
 ---
 
@@ -13,18 +25,28 @@ In this simulated incident involving the **NAD Cybersecurity Institute**, the at
 - Detect SSH-based lateral movement.
 - Investigate remote service creation.
 - Identify scheduled task execution used for remote movement.
-- Correlate process execution with network activity.
-- Produce evidence supporting lateral movement detection.
+- Correlate process execution with endpoint telemetry.
+- Validate attacker pivoting between systems.
+- Document evidence supporting lateral movement techniques.
 
 ---
 
 # Business Scenario
 
-After successfully compromising the initial host, the attacker attempted to pivot deeper into the environment by leveraging legitimate administrative protocols and remote execution techniques.
+After compromising the initial host, the attacker attempted
+to pivot deeper into the enterprise network using trusted
+administrative mechanisms rather than deploying additional
+malware.
 
-SOC analysts investigated the activity using Splunk Enterprise and endpoint telemetry to determine whether the attacker attempted to establish access to additional systems within the NAD Cybersecurity Institute network.
+SOC analysts investigated process creation events, remote
+execution activity, and administrative commands using Splunk
+Enterprise and endpoint telemetry to determine whether the
+attacker attempted to establish access to additional systems
+within the NAD Cybersecurity Institute environment.
 
-The investigation confirmed multiple indicators consistent with lateral movement techniques commonly observed during enterprise intrusions.
+The investigation confirmed multiple indicators consistent
+with lateral movement techniques frequently observed during
+enterprise intrusions.
 
 ---
 
@@ -52,11 +74,11 @@ The investigation confirmed multiple indicators consistent with lateral movement
 # Investigation Workflow
 
 1. Investigate SSH client activity.
-2. Detect remote service creation.
-3. Identify scheduled task execution.
-4. Correlate process execution events.
-5. Validate lateral movement attempts.
-6. Document evidence supporting attacker pivoting.
+2. Analyze scheduled task execution.
+3. Review remote service creation events.
+4. Correlate process creation telemetry.
+5. Validate attempted lateral movement.
+6. Document attacker pivoting techniques.
 
 ---
 
@@ -64,81 +86,82 @@ The investigation confirmed multiple indicators consistent with lateral movement
 
 ## SSH Client Activity
 
-Following successful compromise, the attacker attempted to
+Following the initial compromise, the attacker attempted to
 move laterally by initiating SSH connections to additional
-systems within the environment. The Security Operations Center
-(SOC) investigated process creation events to determine
-whether remote access tools were used to expand the attack.
+systems within the environment. SOC analysts investigated
+process creation events to determine whether legitimate
+remote administration tools were being abused.
 
 ### SSH Client Process Creation
 
 ![SSH Client Process Creation](13_SSH_Client_Process_Creation.png)
 
-Splunk investigation identified the creation of an SSH client
-process used to establish remote connections. This activity
-provided evidence of the attacker's attempt to access
-additional hosts using legitimate remote administration
-protocols.
+Splunk identified the creation of an SSH client process used
+to establish remote connections. This activity indicates an
+attempt to access additional hosts using the SSH protocol,
+which is commonly abused during lateral movement.
 
 ---
 
-# Scheduled Task Investigation
+## Scheduled Task Investigation
 
-To facilitate remote command execution, the attacker attempted
-to leverage scheduled tasks as a lateral movement technique.
-SOC analysts investigated task creation events to determine
-whether commands had been executed on remote systems.
+The attacker attempted to execute commands remotely by
+leveraging scheduled tasks. This technique enables attackers
+to run payloads on remote systems while blending with normal
+administrative activity.
 
 ### Remote Scheduled Task Detection
 
 ![Remote Scheduled Task Detection](26_Remote_Scheduled_Task_Detection.png)
 
-Splunk detected activity consistent with remote scheduled task
-execution. This technique is commonly used by attackers to
-execute commands on remote hosts while minimizing direct user
-interaction and maintaining operational stealth.
+Splunk detected activity consistent with remote scheduled
+task execution. The investigation confirmed the use of
+scheduled tasks as a potential mechanism for executing
+commands on additional systems within the environment.
 
 ---
 
-# Remote Service Execution
+## Remote Service Execution
 
-The attacker also attempted to create or manipulate remote
-services as part of lateral movement. Service creation is a
-well-known technique used to execute payloads and gain
-execution on additional systems within a network.
+As part of the lateral movement attempt, the attacker also
+leveraged remote service creation to facilitate execution on
+other hosts. Remote services are frequently abused because
+they rely on legitimate Windows administrative functionality.
 
-### Remote Service Execution Investigation
+### Remote Service Creation
 
-![Remote Service Execution](27_Remote_Service_Execution.png)
+![Remote Service Creation](27_Remote_Service_Creation.png)
 
 Splunk investigation identified activity associated with
-remote service execution, providing evidence of an attempt to
-move laterally between systems using legitimate Windows
-service management functionality.
+remote service creation, providing evidence that the attacker
+attempted to move laterally using trusted service management
+mechanisms.
 
-The investigation enabled analysts to correlate remote
-service activity with earlier SSH and scheduled task events,
-demonstrating multiple lateral movement techniques employed
-during the intrusion.
-**27_Remote_Service_Creation.png**
-
-- Splunk investigation identifying remote service creation activity.
+The correlation of SSH activity, scheduled task execution,
+and remote service creation demonstrates multiple techniques
+used to expand access across the environment.
 
 ---
 
 # Findings
 
-The investigation confirmed multiple lateral movement indicators following successful compromise of the initial host.
+The investigation confirmed several indicators of lateral
+movement following the successful compromise of the initial
+host.
 
-Observed attacker behavior included:
+Evidence demonstrated:
 
-- SSH client execution.
+- SSH client execution for remote access.
+- Scheduled task execution used for remote command execution.
 - Remote service creation.
-- Scheduled task execution.
-- Administrative remote access techniques.
-- Attempts to expand access within the environment.
+- Administrative process execution.
+- Attempts to pivot to additional systems within the
+  environment.
 
-These findings demonstrate how attackers use trusted administrative mechanisms to move between systems while attempting to remain undetected.
+By correlating endpoint telemetry with process execution
+events, SOC analysts reconstructed the attacker's lateral
+movement attempts and validated the techniques used during
+the intrusion.
 
 ---
 
@@ -146,16 +169,24 @@ These findings demonstrate how attackers use trusted administrative mechanisms t
 
 | Platform | Detection |
 |----------|-----------|
-| Splunk | SSH Client Process Creation |
-| Splunk | Remote Scheduled Task Detection |
-| Splunk | Remote Service Creation |
-| Sysmon | Process Creation Events |
-| Windows Event Logs | Remote Administrative Activity |
+| Splunk Enterprise | SSH client process creation |
+| Splunk Enterprise | Remote scheduled task detected |
+| Splunk Enterprise | Remote service creation detected |
+| Sysmon | Process creation events |
+| Windows Event Logs | Remote administrative activity |
 
 ---
 
 # Lessons Learned
 
-Lateral movement often marks the transition from compromising a single endpoint to compromising an entire enterprise environment.
+The Lateral Movement phase often represents a critical
+turning point in an intrusion, allowing attackers to expand
+from a single compromised endpoint to multiple systems across
+an enterprise network.
 
-Organizations should continuously monitor remote service creation, SSH activity, scheduled task execution, and administrative process creation. Correlating endpoint telemetry with SIEM detections enables defenders to identify attacker pivoting early and contain compromises before critical systems are affected.
+Continuous monitoring of SSH activity, remote service
+creation, scheduled task execution, and process creation
+events enables defenders to identify attacker pivoting at an
+early stage. Correlating endpoint telemetry with SIEM
+detections provides the visibility required to contain
+lateral movement before critical assets are compromised.

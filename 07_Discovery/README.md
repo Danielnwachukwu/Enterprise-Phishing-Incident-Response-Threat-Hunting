@@ -2,9 +2,18 @@
 
 ## Overview
 
-The Discovery phase represents the attacker's effort to understand the compromised environment before proceeding with additional objectives. During this stage, the attacker enumerated the operating system, identified users and network configuration, searched for sensitive files, collected valuable data, and investigated external infrastructure associated with the phishing campaign.
+The Discovery phase represents the attacker's effort to
+understand the compromised environment before pursuing
+additional objectives. During this stage, the attacker
+enumerated the operating system, identified users and network
+configuration, searched for sensitive files, collected
+valuable data, and investigated infrastructure associated
+with the phishing campaign.
 
-The Security Operations Center (SOC) correlated Linux command-line evidence, Splunk telemetry, and Open Source Intelligence (OSINT) to reconstruct the attacker's discovery activities and identify the scope of the compromise.
+The Security Operations Center (SOC) correlated Linux command
+history, Splunk telemetry, and Open Source Intelligence
+(OSINT) to reconstruct the attacker's discovery activities
+and determine the scope of the compromise.
 
 ---
 
@@ -13,17 +22,25 @@ The Security Operations Center (SOC) correlated Linux command-line evidence, Spl
 - Identify sensitive information collected by the attacker.
 - Investigate file and directory enumeration.
 - Analyze post-exploitation discovery commands.
-- Detect discovery activities within Splunk.
-- Perform threat intelligence enrichment using OSINT.
+- Detect discovery activity using Splunk Enterprise.
+- Enrich indicators of compromise with OSINT.
 - Correlate attacker behavior with MITRE ATT&CK techniques.
 
 ---
 
 # Business Scenario
 
-After successfully establishing persistence and evading endpoint defenses, the attacker began surveying the compromised Linux server to understand its environment and locate valuable information.
+After successfully establishing persistence and evading
+security controls, the attacker began surveying the
+compromised Linux server to understand its environment and
+identify valuable information.
 
-The attacker enumerated system configuration, users, network interfaces, directories, and sensitive files before archiving collected data for possible exfiltration. Simultaneously, the SOC enriched indicators of compromise using VirusTotal and AbuseIPDB to determine the reputation and infrastructure associated with the phishing campaign.
+The attacker enumerated system configuration, users, network
+interfaces, directories, and sensitive files before archiving
+collected data for potential exfiltration. At the same time,
+SOC analysts enriched indicators of compromise using
+VirusTotal and AbuseIPDB to assess the reputation of the
+attack infrastructure.
 
 ---
 
@@ -56,163 +73,262 @@ The attacker enumerated system configuration, users, network interfaces, directo
 
 # Investigation Workflow
 
-1. Collect sensitive files from the compromised system.
-2. Archive collected data.
-3. Enumerate sensitive directories and files.
-4. Investigate system configuration and users.
-5. Analyze network configuration and active connections.
-6. Correlate discovery commands using Splunk.
-7. Enrich indicators with external threat intelligence.
+1. Investigate sensitive data collection.
+2. Review archive creation.
+3. Analyze file and directory enumeration.
+4. Examine system and user discovery commands.
+5. Investigate network configuration and connections.
+6. Correlate discovery activity using Splunk.
+7. Enrich indicators using external threat intelligence.
 
 ---
 
 # Evidence
 
-## Data Collection
+## Sensitive Data Collection
 
-The attacker collected valuable files from the compromised host and archived the information for later retrieval.
+Following successful compromise, the attacker collected
+valuable files from the target system and archived the data
+for possible exfiltration.
 
-### Evidence
+### Sensitive Data Collection and Archive Creation
 
-**24_Sensitive_Data_Collection_and_Archive_Creation.png**
+![Sensitive Data Collection](24_Sensitive_Data_Collection_and_Archive_Creation.png)
 
-- Collection and archival of sensitive data discovered during post-exploitation.
-
----
-
-## File Enumeration
-
-The attacker searched the filesystem to identify sensitive files and directories.
-
-### Evidence
-
-**25_Sensitive_File_Discovery.png**
-
-- Enumeration of files containing potentially valuable information.
-
-**26_File_System_Discovery.png**
-
-- Splunk investigation confirming file system enumeration activity.
+Evidence showing the collection of sensitive files and the
+creation of an archive containing data gathered during
+post-exploitation.
 
 ---
 
-## Post-Exploitation Enumeration
+# File System Enumeration
 
-Following successful compromise, the attacker gathered detailed information about the operating system, users, and network configuration.
+The attacker searched the filesystem to locate directories,
+configuration files, and other sensitive information that
+could support additional stages of the attack.
 
-### Evidence
+### Sensitive File Discovery
 
-**27_ROOT_System_Enumeration.png**
+![Sensitive File Discovery](25_Sensitive_File_Discovery.png)
 
-- Enumeration of operating system configuration and privileged account information.
-
-**28_Splunk_Whoami_Command_Execution.png**
-
-- Splunk investigation confirming execution of the `whoami` command.
-
-**29_Splunk_Net_Command_Execution.png**
-
-- Detection of Windows/Linux networking commands executed during discovery.
-
-**30_Splunk_IPConfig_Network_Discovery.png**
-
-- Investigation of network configuration discovery.
-
-**31_Splunk_Network_Connection_Filter_192.168.56.1.png**
-
-- Network connection investigation targeting the lab environment.
-
-**32_Splunk_Network_Connections_EventID3_Table.png**
-
-- Review of Sysmon Event ID 3 network connection telemetry.
-
-**33_Splunk_No_Network_Connection_to_Ubuntu_Target.png**
-
-- Validation showing unsuccessful communication with the Ubuntu target system.
+Enumeration of files containing potentially valuable
+information on the compromised system.
 
 ---
 
-## Splunk Detection
+### File System Discovery
 
-SOC analysts correlated discovery commands using Splunk Enterprise to reconstruct attacker activity.
+![File System Discovery](26_File_System_Discovery.png)
 
-### Evidence
-
-**34_Splunk_DNS_Query_Search_Results.png**
-
-- DNS query investigation results.
-
-**35_Splunk_DNS_Query_Detection.png**
-
-- Detection of DNS lookup activity.
-
-**36_Sysmon_DNS_Query_Event_Details.png**
-
-- Detailed Sysmon Event ID associated with DNS resolution.
-
-**37_Splunk_DNS_Query_Statistics.png**
-
-- Statistical analysis of DNS queries during the incident.
-
-**38_Splunk_DNS_Resolution_Results.png**
-
-- Final DNS resolution results supporting the investigation.
+Splunk investigation confirming file and directory
+enumeration activity performed by the attacker.
 
 ---
 
-## Threat Intelligence
+# System Enumeration
 
-External intelligence platforms were used to validate the reputation of indicators associated with the phishing campaign.
+After identifying valuable files, the attacker collected
+information about the operating system, logged-on users, and
+network configuration.
 
-### Evidence
+### Root System Enumeration
 
-**39_VirusTotal_IP_Reputation_Check.png**
+![Root System Enumeration](27_ROOT_System_Enumeration.png)
 
-- VirusTotal reputation analysis for the identified IP address.
+Enumeration of operating system details, privileged accounts,
+and system configuration.
 
-**40_VirusTotal_IP_Relationship_Analysis.png**
+---
 
-- Infrastructure relationship analysis within VirusTotal.
+### Whoami Command Execution
 
-**41_AbuseIPDB_WHOIS_Infrastructure_Analysis.png**
+![Whoami Command Execution](28_Splunk_Whoami_Command_Execution.png)
 
-- WHOIS and infrastructure ownership investigation.
+Splunk confirmed execution of the **whoami** command,
+allowing analysts to identify the security context under
+which the attacker operated.
 
-**42_AbuseIPDB_IP_Reputation_Summary.png**
+---
 
-- AbuseIPDB reputation summary.
+### Network Command Execution
 
-**43_AbuseIPDB_Historical_Abuse_Reports.png**
+![Network Command Execution](29_Splunk_Net_Command_Execution.png)
 
-- Historical abuse reports associated with the investigated IP.
+Investigation showing execution of networking commands used
+to identify hosts, services, or network configuration.
+
+---
+
+### Network Configuration Discovery
+
+![Network Configuration Discovery](30_Splunk_IPConfig_Network_Discovery.png)
+
+Splunk telemetry confirming that the attacker gathered
+network interface and IP configuration information.
+
+---
+
+### Network Connection Investigation
+
+![Network Connection Investigation](31_Splunk_Network_Connection_Filter_192.168.56.1.png)
+
+Analysis of network connections involving the laboratory
+environment during the discovery phase.
+
+---
+
+### Sysmon Event ID 3 Network Connections
+
+![Sysmon Event ID 3](32_Splunk_Network_Connections_EventID3_Table.png)
+
+Review of Sysmon Event ID 3 telemetry showing network
+connection activity observed during the investigation.
+
+---
+
+### Ubuntu Connectivity Validation
+
+![Ubuntu Connectivity Validation](33_Splunk_No_Network_Connection_to_Ubuntu_Target.png)
+
+Investigation confirming that no successful communication was
+established with the Ubuntu target during this stage.
+
+---
+
+# DNS Investigation
+
+SOC analysts investigated DNS activity to identify domains
+resolved by the attacker and correlate network behavior with
+the phishing campaign.
+
+### DNS Query Search Results
+
+![DNS Query Search Results](34_Splunk_DNS_Query_Search_Results.png)
+
+Splunk search results showing DNS queries executed during the
+incident.
+
+---
+
+### DNS Query Detection
+
+![DNS Query Detection](35_Splunk_DNS_Query_Detection.png)
+
+Detection of DNS lookup activity associated with attacker
+operations.
+
+---
+
+### Sysmon DNS Event Details
+
+![Sysmon DNS Event Details](36_Sysmon_DNS_Query_Event_Details.png)
+
+Detailed Sysmon event information for DNS resolution
+performed by the compromised endpoint.
+
+---
+
+### DNS Query Statistics
+
+![DNS Query Statistics](37_Splunk_DNS_Query_Statistics.png)
+
+Statistical analysis of DNS requests generated throughout the
+investigation.
+
+---
+
+### DNS Resolution Results
+
+![DNS Resolution Results](38_Splunk_DNS_Resolution_Results.png)
+
+Final DNS resolution results supporting the reconstruction of
+attacker activity.
+
+---
+
+# Threat Intelligence Investigation
+
+External threat intelligence platforms were used to enrich
+indicators of compromise and validate the reputation of the
+identified infrastructure.
+
+### VirusTotal IP Reputation
+
+![VirusTotal IP Reputation](39_VirusTotal_IP_Reputation_Check.png)
+
+VirusTotal reputation analysis for the investigated IP
+address associated with the phishing infrastructure.
+
+---
+
+### VirusTotal Infrastructure Relationships
+
+![VirusTotal Infrastructure Relationships](40_VirusTotal_IP_Relationship_Analysis.png)
+
+Relationship analysis identifying associated infrastructure
+and related indicators within VirusTotal.
+
+---
+
+### WHOIS and Infrastructure Analysis
+
+![WHOIS Infrastructure Analysis](41_AbuseIPDB_WHOIS_Infrastructure_Analysis.png)
+
+WHOIS investigation providing ownership and infrastructure
+details for the identified IP address.
+
+---
+
+### AbuseIPDB Reputation Summary
+
+![AbuseIPDB Reputation Summary](42_AbuseIPDB_IP_Reputation_Summary.png)
+
+AbuseIPDB reputation assessment summarizing reported
+malicious activity linked to the investigated infrastructure.
+
+---
+
+### Historical Abuse Reports
+
+![Historical Abuse Reports](43_AbuseIPDB_Historical_Abuse_Reports.png)
+
+Historical abuse reports providing additional context on
+previous malicious activity associated with the identified
+IP address.
 
 ---
 
 # Findings
 
-The investigation demonstrated that the attacker performed extensive reconnaissance within the compromised environment before attempting data exfiltration.
+The investigation confirmed that the attacker conducted
+extensive discovery activities before attempting data
+exfiltration.
 
-Evidence confirmed:
+Evidence demonstrated:
 
 - Collection and archival of sensitive information.
-- File system and directory enumeration.
+- File and directory enumeration.
 - System, user, and network discovery.
 - DNS resolution and network investigation.
-- External reputation analysis of attack infrastructure.
-- Correlation of discovery activities using Splunk.
+- External reputation analysis of attacker infrastructure.
+- Correlation of discovery activities using Splunk
+  Enterprise.
 
-The combined telemetry provided a comprehensive understanding of the attacker's objectives and the systems affected during the incident.
+The combination of endpoint telemetry, network monitoring,
+and external threat intelligence provided a comprehensive
+understanding of the attacker's objectives and the overall
+scope of the compromise.
 
 ---
 
 # Detection Summary
 
-| Platform | Result |
-|----------|--------|
+| Platform | Detection |
+|----------|-----------|
 | Kali Linux | Sensitive data collected |
 | Kali Linux | File system enumeration completed |
-| Splunk | Discovery commands detected |
-| Splunk | DNS investigations completed |
+| Splunk Enterprise | Discovery commands detected |
+| Splunk Enterprise | DNS activity investigated |
 | VirusTotal | IP reputation analyzed |
 | AbuseIPDB | Infrastructure reputation verified |
 
@@ -220,6 +336,13 @@ The combined telemetry provided a comprehensive understanding of the attacker's 
 
 # Lessons Learned
 
-Discovery activities often generate a significant number of command-line executions, network queries, and filesystem access events that can provide early indicators of attacker intent. Correlating endpoint telemetry with threat intelligence enables defenders to understand attacker objectives, prioritize incident response actions, and identify additional systems that may be at risk.
+The Discovery phase demonstrates how attackers gather
+critical information before progressing to later stages of an
+intrusion.
 
-Organizations should continuously monitor system enumeration commands, unusual DNS activity, network discovery attempts, and access to sensitive files while enriching indicators through trusted threat intelligence platforms.
+Monitoring command-line activity, filesystem access, DNS
+queries, and network discovery provides valuable insight into
+attacker objectives. Combining endpoint telemetry with
+trusted threat intelligence enables defenders to identify
+high-risk indicators, prioritize incident response actions,
+and better understand the scope of a compromise.

@@ -62,38 +62,68 @@ These persistence mechanisms would allow the attacker to regain access even if p
 
 # Evidence
 
-## Scheduled Tasks
+## Scheduled Task Persistence
 
-The attacker established persistence by creating a cron-based backdoor that executes automatically at scheduled intervals.
+To maintain long-term access, the attacker established
+persistence by creating a malicious cron job configured to
+execute automatically at scheduled intervals.
 
-### Evidence
+### Cron Persistence Backdoor
 
-**16_Cron_Persistence_Backdoor_Created.png**
+![Cron Persistence Backdoor](16_Cron_Persistence_Backdoor_Created.png)
 
-- Creation of a malicious cron job configured to provide persistent access after system reboot.
+The attacker created a malicious cron job that executes
+automatically, providing persistent access to the compromised
+system even after user logoff or system reboot.
 
 ---
 
-## SSH Persistence
+# SSH Persistence
 
-The attacker implanted a malicious public SSH key to enable passwordless authentication.
+Following successful privilege escalation, the attacker
+established an additional persistence mechanism by implanting
+a malicious SSH public key into the **authorized_keys** file.
+This enabled passwordless remote authentication while reducing
+the likelihood of detection.
 
-### Evidence
+### Authorized Keys Backdoor
 
-**17_SSH_Persistence_Authorized_Keys_Backdoor.png**
+![Authorized Keys Backdoor](17_SSH_Persistence_Authorized_Keys_Backdoor.png)
 
-- Malicious SSH public key added to the **authorized_keys** file.
+A malicious SSH public key was added to the
+**authorized_keys** file, allowing the attacker to reconnect
+to the system without requiring user credentials.
 
-**18_Splunk_SSH_AuthorizedKeys_Activity.png**
+---
 
-- Splunk investigation showing activity involving the authorized_keys file.
+### Splunk Authorized Keys Investigation
 
-**19_Authorized_Keys_File_Access.png**
+![Splunk Authorized Keys Activity](18_Splunk_SSH_AuthorizedKeys_Activity.png)
 
-- Evidence confirming modification and access to the authorized_keys file.
+Splunk telemetry captured activity involving the
+**authorized_keys** file, enabling analysts to correlate file
+modification events with the persistence phase of the attack.
 
-**20_Splunk_SSH_Network_Connections_Port22.png**
+---
 
+### Authorized Keys File Access
+
+![Authorized Keys File Access](19_Authorized_Keys_File_Access.png)
+
+Forensic evidence confirms that the **authorized_keys** file
+was accessed and modified, validating the attacker's
+persistence mechanism.
+
+---
+
+### SSH Network Connections (Port 22)
+
+![SSH Network Connections - Port 22](20_Splunk_SSH_Network_Connections_Port22.png)
+
+Splunk analysis of network connections over **TCP port 22**
+shows continued SSH communication associated with the
+persistent backdoor, providing additional evidence of
+maintained remote access.
 - Splunk investigation showing SSH communication over TCP port 22 associated with persistent remote access.
 
 ---

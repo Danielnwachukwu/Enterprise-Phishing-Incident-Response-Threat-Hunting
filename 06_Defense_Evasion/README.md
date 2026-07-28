@@ -62,36 +62,55 @@ The SOC investigated these actions to determine whether the attacker was activel
 
 ## Living Off the Land Binaries (LOLBins)
 
-The attacker abused legitimate Windows binaries to execute commands while blending into normal operating system activity.
+To reduce the likelihood of detection, the attacker abused
+trusted Windows utilities to execute malicious commands while
+appearing as legitimate operating system activity.
 
-### Evidence
+### LOLBins Command Investigation
 
-**21_LOLBins_Command_Investigation.png**
+![LOLBins Command Investigation](21_LOLBins_Command_Investigation.png)
 
-- Splunk investigation identifying suspicious execution of trusted Windows binaries associated with attacker activity.
-
----
-
-## PowerShell Obfuscation
-
-To conceal malicious intent, PowerShell commands were executed in an encoded format.
-
-### Evidence
-
-**22_Encoded_PowerShell_Command_Investigation.png**
-
-- Splunk investigation highlighting encoded PowerShell command execution consistent with obfuscation techniques.
+Splunk was used to investigate the execution of trusted
+Windows binaries associated with attacker activity. The
+analysis identified command execution consistent with
+Living-off-the-Land techniques used to evade traditional
+security controls.
 
 ---
 
-## Security Tool Evasion
+# PowerShell Obfuscation
 
-The attacker attempted to weaken endpoint defenses by interacting with Windows Defender.
+The attacker executed PowerShell commands in an encoded format
+to conceal malicious intent and hinder detection by security
+tools.
 
-### Evidence
+### Encoded PowerShell Command Investigation
 
-**23_Windows_Defender_Tampering_Investigation.png**
+![Encoded PowerShell Command Investigation](22_Encoded_PowerShell_Command_Investigation.png)
 
+Splunk analysis identified encoded PowerShell commands,
+indicating an attempt to obfuscate execution and bypass
+security monitoring. This behavior is commonly associated with
+malware delivery, payload execution, and post-exploitation
+activity.
+
+---
+
+# Windows Defender Tampering
+
+To further evade detection, the attacker attempted to interact
+with Windows Defender in an effort to weaken endpoint security
+protections before continuing malicious activity.
+
+### Windows Defender Tampering Investigation
+
+![Windows Defender Tampering Investigation](23_Windows_Defender_Tampering_Investigation.png)
+
+Splunk investigation revealed activity involving Windows
+Defender, suggesting attempts to modify or interfere with
+endpoint protection. Such actions are commonly observed during
+the defense evasion phase of an intrusion and may indicate an
+effort to disable or bypass security controls.
 - Splunk investigation showing activity associated with Windows Defender tampering and potential security control impairment.
 
 ---

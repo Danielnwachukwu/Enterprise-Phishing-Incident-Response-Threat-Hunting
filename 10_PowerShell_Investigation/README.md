@@ -68,57 +68,90 @@ The investigation confirmed multiple malicious PowerShell execution indicators a
 
 # Evidence
 
-## Wazuh Detection
+## Wazuh PowerShell Detection
 
-### 45_Wazuh_Encoded_PowerShell_Detection.png
+Wazuh generated alerts after detecting suspicious encoded
+PowerShell execution on the compromised system. The alert
+provided the Security Operations Center (SOC) with the first
+indication of potentially malicious PowerShell activity
+associated with post-exploitation.
 
-- Wazuh alert identifying suspicious encoded PowerShell execution.
+### Wazuh Encoded PowerShell Detection
 
----
+![Wazuh Encoded PowerShell Detection](45_Wazuh_Encoded_PowerShell_Detection.png)
 
-## Sysmon Process Creation Overview
-
-### 46_Splunk_Sysmon_Process_Creation_Overview.png
-
-- Splunk overview of Sysmon Event ID 1 PowerShell process creation events.
-
----
-
-## Process Creation Command-Line Details
-
-### 47_Splunk_Process_Creation_CommandLine_Details.png
-
-- Detailed command-line arguments executed by PowerShell.
+Wazuh detected the execution of an encoded PowerShell command,
+highlighting behavior commonly associated with obfuscation,
+malware execution, and defense evasion techniques.
 
 ---
 
-## PowerShell Process Detection
+# Sysmon Process Creation Investigation
 
-### 48_Splunk_PowerShell_Process_Detection.png
+To validate the Wazuh alert, analysts reviewed Sysmon process
+creation events collected by Splunk Enterprise. These events
+provided detailed visibility into PowerShell execution and
+associated command-line activity.
 
-- Splunk detection identifying suspicious PowerShell execution.
+### Sysmon Process Creation Overview
 
----
+![Sysmon Process Creation Overview](46_Splunk_Sysmon_Process_Creation_Overview.png)
 
-## Process Execution Investigation
-
-### 49_Splunk_CMD_Process_Execution.png
-
-- Investigation of command execution activity associated with PowerShell.
-
----
-
-## Sysmon Process Search
-
-### 50_Splunk_Sysmon_Process_Creation_Search.png
-
-- Splunk search validating Sysmon PowerShell execution events.
+Splunk provided an overview of Sysmon Event ID 1 process
+creation events, allowing analysts to identify PowerShell
+execution during the investigation.
 
 ---
 
-## Sysmon Event Details
+### Process Command-Line Details
 
-### 51_Sysmon_Process_Event_Details.png
+![Process Command-Line Details](47_Splunk_Process_Creation_CommandLine_Details.png)
+
+Detailed command-line arguments revealed the exact
+PowerShell commands executed on the compromised system,
+providing valuable forensic evidence for the investigation.
+
+---
+
+### PowerShell Process Detection
+
+![PowerShell Process Detection](48_Splunk_PowerShell_Process_Detection.png)
+
+Splunk identified suspicious PowerShell process execution,
+allowing analysts to correlate encoded commands with attacker
+activity observed during previous phases of the intrusion.
+
+---
+
+### Command Process Investigation
+
+![Command Process Investigation](49_Splunk_CMD_Process_Execution.png)
+
+Investigation of command execution activity revealed the
+relationship between PowerShell and supporting command-line
+processes involved in the attack.
+
+---
+
+### Sysmon Process Creation Search
+
+![Sysmon Process Creation Search](50_Splunk_Sysmon_Process_Creation_Search.png)
+
+Splunk search results validated Sysmon process creation events
+associated with PowerShell execution, enabling investigators
+to reconstruct the execution timeline.
+
+---
+
+### Sysmon Event Details
+
+![Sysmon Event Details](51_Sysmon_Process_Event_Details.png)
+
+Detailed Sysmon event information provided complete forensic
+context, including process identifiers, parent-child process
+relationships, command-line arguments, execution timestamps,
+and other metadata required to validate the attacker's
+PowerShell activity.
 
 - Detailed Sysmon Event ID 1 forensic information for the malicious PowerShell process.
 

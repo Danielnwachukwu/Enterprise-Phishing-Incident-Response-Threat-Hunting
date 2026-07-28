@@ -61,41 +61,64 @@ The SOC investigation reconstructed the attack by correlating Linux enumeration 
 
 # Evidence
 
-## Investigation
+## Sudo Investigation
 
-The SOC analyst investigated sudo activity generated during the privilege escalation process.
+The Security Operations Center (SOC) investigated sudo-related
+activity to determine whether the attacker successfully
+escalated privileges after gaining access to the target
+system.
 
-### Evidence
+### Sudo Keyword Investigation
 
-**12_Sudo_Keyword_Investigation.png**
+![Sudo Keyword Investigation](12_Sudo_Keyword_Investigation.png)
 
-- Investigation of sudo-related events within Wazuh to identify privilege escalation activity.
-
----
-
-## Kali Attack Evidence
-
-The attacker performed local privilege escalation after establishing an SSH session.
-
-### Evidence
-
-**13_SUID_Binary_Enumeration.png**
-
-- Enumeration of SUID binaries using Linux commands to identify privilege escalation opportunities.
-
-**14_SSH_Login_and_ROOT_Privilege_Escalation.png**
-
-- Successful escalation from a standard user account to the root account.
+Wazuh logs were searched for sudo-related events to identify
+commands executed with elevated privileges and confirm
+privilege escalation activity.
 
 ---
 
-## Wazuh Detection
+# Kali Attack Evidence
 
-Wazuh detected the privilege escalation activity and generated corresponding endpoint telemetry.
+After obtaining remote access through SSH, the attacker
+enumerated local privilege escalation opportunities before
+attempting to obtain root access.
 
-### Evidence
+### SUID Binary Enumeration
 
-**15_Wazuh_Sudo_Root_Access_Document_Details.png**
+![SUID Binary Enumeration](13_SUID_Binary_Enumeration.png)
+
+The attacker enumerated SUID binaries on the Linux system to
+identify executables capable of running with elevated
+privileges, a common privilege escalation technique.
+
+---
+
+### SSH Login and Root Privilege Escalation
+
+![SSH Login and Root Privilege Escalation](14_SSH_Login_and_ROOT_Privilege_Escalation.png)
+
+Using the identified privilege escalation path, the attacker
+successfully transitioned from a standard user account to the
+root account, gaining full administrative control of the
+target system.
+
+---
+
+# Wazuh Detection
+
+Wazuh successfully detected the privilege escalation activity
+and recorded endpoint telemetry associated with the use of
+sudo and root-level access.
+
+### Wazuh Sudo Root Access Details
+
+![Wazuh Sudo Root Access Details](15_Wazuh_Sudo_Root_Access_Document_Details.png)
+
+Detailed Wazuh event information confirming sudo execution,
+root privilege acquisition, and the associated rule metadata,
+providing high-confidence evidence of successful privilege
+escalation.
 
 - Detailed Wazuh event showing sudo execution, rule metadata, and confirmation of root-level access.
 

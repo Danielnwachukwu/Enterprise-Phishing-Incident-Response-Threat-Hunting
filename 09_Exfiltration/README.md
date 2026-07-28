@@ -63,14 +63,29 @@ The investigation confirmed suspicious PowerShell-based outbound communication c
 
 ## PowerShell Web Transfer Investigation
 
-The attacker attempted to transfer collected information using PowerShell web requests.
+Following the collection of sensitive information, the
+attacker attempted to transfer the staged data from the
+compromised host using PowerShell web requests. The Security
+Operations Center (SOC) investigated this activity to
+determine whether outbound communications were consistent
+with data exfiltration techniques.
 
-### Evidence
+### PowerShell Web Transfer Investigation
 
-**PowerShell Web Transfer**
+![PowerShell Web Transfer Investigation](44_PowerShell_Web_Transfer_Investigation.png)
 
-**44_PowerShell_Web_Transfer_Investigation.png**
+Splunk investigation identified PowerShell web request
+activity associated with outbound network communication. The
+telemetry provided evidence that the attacker attempted to
+transfer collected information using PowerShell, a technique
+commonly employed to exfiltrate data while blending with
+legitimate administrative activity.
 
+The investigation enabled analysts to correlate PowerShell
+execution with earlier Collection phase events, confirming
+that sensitive information had been staged and that the
+attacker had progressed into the Exfiltration phase of the
+attack lifecycle.
 - Splunk investigation identifying PowerShell web transfer activity associated with attempted data exfiltration.
 
 ---

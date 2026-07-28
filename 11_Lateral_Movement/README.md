@@ -64,34 +64,62 @@ The investigation confirmed multiple indicators consistent with lateral movement
 
 ## SSH Client Activity
 
-The attacker initiated SSH sessions in an attempt to access additional systems within the environment.
+Following successful compromise, the attacker attempted to
+move laterally by initiating SSH connections to additional
+systems within the environment. The Security Operations Center
+(SOC) investigated process creation events to determine
+whether remote access tools were used to expand the attack.
 
-### Evidence
+### SSH Client Process Creation
 
-**13_SSH_Client_Process_Creation.png**
+![SSH Client Process Creation](13_SSH_Client_Process_Creation.png)
 
-- Splunk investigation identifying SSH client process creation used for remote access.
-
----
-
-## Scheduled Task Movement
-
-The attacker attempted to leverage scheduled tasks to execute commands remotely.
-
-### Evidence
-
-**26_Remote_Scheduled_Task_Detection.png**
-
-- Splunk investigation detecting remote scheduled task execution associated with lateral movement.
+Splunk investigation identified the creation of an SSH client
+process used to establish remote connections. This activity
+provided evidence of the attacker's attempt to access
+additional hosts using legitimate remote administration
+protocols.
 
 ---
 
-## Remote Service Execution
+# Scheduled Task Investigation
 
-The attacker attempted remote service creation to facilitate movement between systems.
+To facilitate remote command execution, the attacker attempted
+to leverage scheduled tasks as a lateral movement technique.
+SOC analysts investigated task creation events to determine
+whether commands had been executed on remote systems.
 
-### Evidence
+### Remote Scheduled Task Detection
 
+![Remote Scheduled Task Detection](26_Remote_Scheduled_Task_Detection.png)
+
+Splunk detected activity consistent with remote scheduled task
+execution. This technique is commonly used by attackers to
+execute commands on remote hosts while minimizing direct user
+interaction and maintaining operational stealth.
+
+---
+
+# Remote Service Execution
+
+The attacker also attempted to create or manipulate remote
+services as part of lateral movement. Service creation is a
+well-known technique used to execute payloads and gain
+execution on additional systems within a network.
+
+### Remote Service Execution Investigation
+
+![Remote Service Execution](27_Remote_Service_Execution.png)
+
+Splunk investigation identified activity associated with
+remote service execution, providing evidence of an attempt to
+move laterally between systems using legitimate Windows
+service management functionality.
+
+The investigation enabled analysts to correlate remote
+service activity with earlier SSH and scheduled task events,
+demonstrating multiple lateral movement techniques employed
+during the intrusion.
 **27_Remote_Service_Creation.png**
 
 - Splunk investigation identifying remote service creation activity.
